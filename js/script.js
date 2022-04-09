@@ -1,4 +1,4 @@
-$('#search-button').on('click', function () {
+function searchMovie() {
   $('#movie-list').html('');
   $.ajax({
     url: 'http://omdbapi.com',
@@ -31,4 +31,16 @@ $('#search-button').on('click', function () {
       }
     },
   });
+}
+
+$('#search-button').on('click', function () {
+  searchMovie();
+});
+
+$('#search-input').on('keyup', function(e) {
+  //13 adalah code untuk enter
+  if (e.keyCode === 13) {
+    searchMovie();
+    return;
+  }
 });
