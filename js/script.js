@@ -19,7 +19,8 @@ function searchMovie() {
           <div class="card-body">
             <h5 class="card-title">`+ data.Title +`</h5>
             <h6 class="card-subtitle mb-2 text-muted">`+ data.Year +`</h6>
-            <a href="#" class="btn btn-primary">See Detail</a>
+            <a href="#" class="btn btn-primary" data-bs-toggle="modal"
+            data-bs-target="#exampleModal" id="see-detail" data-id="`+ data.imdbID +`">See Detail</a>
           </div>
           </div>
           </div>
@@ -43,4 +44,37 @@ $('#search-input').on('keyup', function(e) {
     searchMovie();
     return;
   }
+});
+
+$('#movie-list').on('click', '#see-detail', function() {
+  $.ajax({
+    url: 'http://omdbapi.com',
+    dataType: 'json',
+    type: 'get',
+    data: {
+      'apikey' : '51559b83',
+      'i' : $(this).data('id')
+    },
+    success: function(result) {
+      if (result.Response == "True") {
+        $('.modal-body').html(`
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-4">
+              <img src="`+ result.Poster +` class="img-fluid">
+            </div>
+            <div class="col-md-8">
+              <ul class="list-group">
+                <li class="list-group-item">Title :`+ result.Title +`</li>
+                <li class="list-group-item">Release : `+ result.Released +`</li>
+                <li class="list-group-item">Genre : `+ result.Genre +`</li>
+                <li class="list-group-item">Director : `+ result.Director +`</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        `);
+      }
+    }
+  })
 });
