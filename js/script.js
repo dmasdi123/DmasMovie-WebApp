@@ -1,4 +1,5 @@
 $('#search-button').on('click', function () {
+  $('#movie-list').html('');
   $.ajax({
     url: 'http://omdbapi.com',
     type: 'get',
@@ -24,6 +25,7 @@ $('#search-button').on('click', function () {
           </div>
           `);
         });
+        $('#search-input').val('');
       }else {
         $('#movie-list').html(`<h1 class="text-center">` + result.Error + `</h1>`);
       }
